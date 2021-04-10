@@ -3,6 +3,19 @@ from PIL import ImageGrab
 import pytesseract
 import pyperclip
 import time
+        
+'''
+This function returns the text in an image stripped of all new lines
+'''
+def get_text_from_image(image):
+    return pytesseract.image_to_string(image).replace('\n', ' ').replace('\r', ' ')
+
+def get_image_from_clipboard():
+    # Get the image from the clipboard and extract the text from it
+    im = ImageGrab.grabclipboard()
+    image_text = get_text_from_image(im)
+
+    return image_text
 
 '''
 This loop is always running. Whenever the clipboard changes,
@@ -27,19 +40,6 @@ def main():
                 # Set the clipboard text to be the extracted text from the image
                 pyperclip.copy(image_text)
         time.sleep(0.1)
-'''
-This function returns the text in an image stripped of all new lines
-'''
-def get_text_from_image(image):
-    return pytesseract.image_to_string(image).replace('\n', ' ').replace('\r', ' ')
-
-def get_image_from_clipboard():
-    # Get the image from the clipboard and extract the text from it
-    im = ImageGrab.grabclipboard()
-    image_text = get_text_from_image(im)
-
-    return image_text
-    
 
 if __name__ == '__main__':
     main()
